@@ -1,10 +1,9 @@
+import { Component, OnInit, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
 
-import { HeroService } from "../hero.service";
-
-import { Component, OnInit } from "@angular/core";
 import { Hero } from "../hero";
+import { HeroService } from "../hero.service";
 
 @Component({
   selector: "app-hero-detail",
@@ -12,12 +11,11 @@ import { Hero } from "../hero";
   styleUrls: ["./hero-detail.component.css"]
 })
 export class HeroDetailComponent implements OnInit {
-  hero: Hero;
+  @Input() hero: Hero;
 
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    //The location is an Angular service for interacting with the browser. You'll use it later to navigate back to the view that navigated here.
     private location: Location
   ) {}
 
@@ -32,5 +30,9 @@ export class HeroDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  save(): void {
+    this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
   }
 }
